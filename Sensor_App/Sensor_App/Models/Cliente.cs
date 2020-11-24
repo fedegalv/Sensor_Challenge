@@ -1,4 +1,5 @@
 ﻿using Sensor_App.Models.Enums;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,10 +7,14 @@ namespace Sensor_App.Models
 {
     public class Cliente
     {
+        public Cliente()
+        {
+            Seguro = new HashSet<Seguro>();
+        }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
-        public int Id { get; set; }
+        public int ClienteId { get; set; }
 
         [Required]
         [StringLength(30)]
@@ -34,7 +39,7 @@ namespace Sensor_App.Models
         public int CodPostal { get; set; }
 
         [Required]
-        public Zona Zona { get; set; }
+        public ZonaEnum Zona { get; set; }
 
         [Required]
         [StringLength(30)]
@@ -52,8 +57,13 @@ namespace Sensor_App.Models
         [StringLength(30)]
         public string Web { get; set; }
 
-        [Required]
-        public Seguro Seguro { get; set; }
+        public ICollection<Seguro> Seguro { get; set; }
+        //[ForeignKey("SeguroID")]
+        //public Seguro Seguro { get; set; }
+        //[Key]
+        //public int IdSeguro { get; set; }
+        //public virtual Seguro Seguro { get; set; }
+        //public int ClienteID { get; set; }
 
         [Required]
         [StringLength(30)]

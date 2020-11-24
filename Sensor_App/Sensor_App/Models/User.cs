@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sensor_App.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,6 +10,12 @@ namespace Sensor_App.Models
 {
     public class User
     {
+        public User()
+        {
+            //Cliente = new Cliente();
+            //Permisos = new Permisos();
+            //Permisos = new HashSet<PermisosEnum>();
+        }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
@@ -30,10 +37,23 @@ namespace Sensor_App.Models
         [StringLength(100)]
         public string Contrasenia { get; set; }
 
-        [ForeignKey("ClienteID")]
-        public Cliente Cliente { get; set; }
+        public virtual ICollection<PermisoTipo> Permisos { get; set; }
+        //[Key]
+        //public int IdCliente { get; set; }
+        public virtual Cliente Cliente { get; set; }
 
-        [Required]
-        public Permisos Permisos { get; set; }
+        //[ForeignKey("ClienteID")]
+        //public Cliente Cliente {get;set;}
+        //public int ClienteID { get; set; }
+
+        //[ForeignKey("PermisosID")]
+        //[Required]
+        //public Permisos Permisos {get;set;}
+        //public int PermisosID { get; set; }
     }
 }
+
+//get
+//{ return Cliente; }
+//set
+//{ Cliente = value; }

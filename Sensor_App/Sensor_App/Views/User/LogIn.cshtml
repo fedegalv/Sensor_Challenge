@@ -1,0 +1,82 @@
+﻿@model Sensor_App.Models.LoginUserModel;    
+@{
+    ViewData["Title"] = "LogIn";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+
+    <!-- ================== BEGIN BASE CSS STYLE ================== -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+
+    <link href="~/assets/css/app.min.css" rel="stylesheet" />
+    <!-- ================== END BASE CSS STYLE ================== -->
+</head>
+<body class="pace-top">
+   
+    <!-- begin #page-container -->
+    <div id="page-container" class="">
+        <!-- begin login -->
+        <div class="login login-v1">
+            <!-- begin login-container -->
+            <div class="login-container">
+                <!-- begin login-header -->
+                <div class="login-header">
+                    <div class="brand">
+                        <span class="logo"></span> <b>LogIn</b> Sensor
+                        <small>Ingrese sus credenciales</small>
+                    </div>
+                </div>
+                <!-- end login-header -->
+                <!-- begin login-body -->
+                <div class="login-body">
+                    <!-- begin login-content -->
+                    <div class="login-content">
+                        @using (Html.BeginForm("Login", "User", FormMethod.Post, new { @class = "LoginUserModel" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group m-b-20">
+                                <input type="text" id="userId" name="Usuario" class="form-control form-control-lg inverse-mode" placeholder="Usuario o Email" required />
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger" })
+                            <div class="form-group m-b-20">
+                                <input type="password" id="passwordId" name="Contrasenia" class="form-control form-control-lg inverse-mode" placeholder="Password" required />
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Contrasenia, "", new { @class = "text-danger" })
+                            <div class="login-buttons">
+                                <button type="submit" class="btn btn-success btn-block btn-lg">LogIn</button>
+                            </div>
+                        }
+                        @if (ViewBag.Error != null)
+                        {
+                            <div style="color:red" role="alert">
+                                @ViewBag.Error
+                            </div>
+                        }
+                    </div>
+                    <!-- end login-content -->
+                 
+                </div>
+                <!-- end login-body -->
+            </div>
+            <!-- end login-container -->
+        </div>
+        <!-- end login -->
+    </div>
+    <!-- end page container -->
+    <!-- ================== BEGIN BASE JS ================== -->
+    <script src="~/js/site.js"></script>
+    <script src="~/js/theme/default.min.js"></script>
+
+    <!-- ================== END BASE JS ================== -->
+</body>
+</html>

@@ -1,15 +1,12 @@
- using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Sensor_App.DBContext;
+using Sensor_App.Interfaces;
+using Sensor_App.Repository;
 
 namespace Sensor_App
 {
@@ -28,6 +25,15 @@ namespace Sensor_App
             services.AddControllersWithViews();
             services.AddDbContext<SensorDbContext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("SensorDbConnection")));
+
+            // UnitOfWork
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+            //USER
+            services.AddTransient<IUserRepository, UserRepository>();
+
+            //Cliente
+            services.AddTransient<IClienteRepository, ClienteRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,7 +60,7 @@ namespace Sensor_App
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=User}/{action=LogIn}/");
             });
         }
     }

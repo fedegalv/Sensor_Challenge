@@ -10,8 +10,8 @@ using Sensor_App.DBContext;
 namespace Sensor_App.Migrations
 {
     [DbContext(typeof(SensorDbContext))]
-    [Migration("20201124134448_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20201124221037_SecondMigration")]
+    partial class SecondMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,7 @@ namespace Sensor_App.Migrations
 
             modelBuilder.Entity("Sensor_App.Models.Cliente", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ClienteId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -68,9 +68,6 @@ namespace Sensor_App.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
-                    b.Property<int>("SeguroId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Telefono")
                         .IsRequired()
                         .HasColumnType("nvarchar(30)")
@@ -84,19 +81,40 @@ namespace Sensor_App.Migrations
                     b.Property<int>("Zona")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("SeguroId");
+                    b.HasKey("ClienteId");
 
                     b.ToTable("Clientes");
                 });
 
-            modelBuilder.Entity("Sensor_App.Models.Seguro", b =>
+            modelBuilder.Entity("Sensor_App.Models.PermisoTipo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Permiso")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PermisoTipo");
+                });
+
+            modelBuilder.Entity("Sensor_App.Models.Seguro", b =>
+                {
+                    b.Property<int>("SeguroId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ClienteId")
+                        .HasColumnType("int");
 
                     b.Property<int>("EstadoTransito")
                         .HasColumnType("int");
@@ -104,7 +122,9 @@ namespace Sensor_App.Migrations
                     b.Property<int>("EstadoTransitoCargaSuelta")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("SeguroId");
+
+                    b.HasIndex("ClienteId");
 
                     b.ToTable("Seguro");
                 });
@@ -116,7 +136,7 @@ namespace Sensor_App.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ClienteID")
+                    b.Property<int?>("ClienteId")
                         .HasColumnType("int");
 
                     b.Property<string>("Contrasenia")
@@ -139,30 +159,32 @@ namespace Sensor_App.Migrations
                         .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
-                    b.Property<int>("Permisos")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ClienteID");
+                    b.HasIndex("ClienteId");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Sensor_App.Models.Cliente", b =>
+            modelBuilder.Entity("Sensor_App.Models.PermisoTipo", b =>
                 {
-                    b.HasOne("Sensor_App.Models.Seguro", "Seguro")
-                        .WithMany()
-                        .HasForeignKey("SeguroId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Sensor_App.Models.User", null)
+                        .WithMany("Permisos")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Sensor_App.Models.Seguro", b =>
+                {
+                    b.HasOne("Sensor_App.Models.Cliente", null)
+                        .WithMany("Seguro")
+                        .HasForeignKey("ClienteId");
                 });
 
             modelBuilder.Entity("Sensor_App.Models.User", b =>
                 {
                     b.HasOne("Sensor_App.Models.Cliente", "Cliente")
                         .WithMany()
-                        .HasForeignKey("ClienteID");
+                        .HasForeignKey("ClienteId");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Sensor_App.Models.Enums
 {
-    public enum EstadoTransito
+    public enum EstadoTransitoEnum
     {
         Si,
         No,

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sensor_App.Models
+namespace Sensor_App.Models.Enums
 {
-    public enum Permisos
+    public enum PermisosEnum
     {
         Listado_Cliente,
         Alta_Cliente,
