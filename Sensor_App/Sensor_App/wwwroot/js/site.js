@@ -3,19 +3,24 @@
 
 // Write your JavaScript code.
 
+//LOADER
 $(window).on("load", function () {
     $(".loader-wrapper").fadeOut("slow");
     
-   
+
+
 });
 $('#msg').hide();
 $('#loginMessage').hide();
 $('#logoutMessage').hide();
+
+//PROFILE PICTURE
 jQuery(function () {
     $("#profilePicture").empty();
     $("#profilePicture").append('<img src="/assets/img/user-13.jpg" />');
 });
 
+//LOGIN
 var Login = function () {
     var data = $('#loginForm').serialize();
     $.ajax({
@@ -35,7 +40,7 @@ var Login = function () {
         }
     })
 }
-
+//LOGIN MODAL
 showInPopup = (url, title) => {
     $.ajax({
         type: 'GET',
@@ -47,6 +52,8 @@ showInPopup = (url, title) => {
         }
     })
 }
+
+//LOGOUT
 var LogOut = function () {
     $.ajax({
         type: "GET",
@@ -63,3 +70,8 @@ var LogOut = function () {
         }
     })
 }
+
+//DATATABLE
+$(document).ready(function () {
+    $('#table_id').DataTable();
+});

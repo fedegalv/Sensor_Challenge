@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewData["Title"] = "VerMapa";
+}
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2020 by anonymous (http://jsbin.com/ludexojubi/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+    <style>
+        .ol-popup {
+            position: absolute;
+            background-color: white;
+            /*--webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));*/
+            filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #cccccc;
+            bottom: 12px;
+            left: -50px;
+            min-width: 180px;
+        }
+
+            .ol-popup:after, .ol-popup:before {
+                top: 100%;
+                border: solid transparent;
+                content: " ";
+                height: 0;
+                width: 0;
+                position: absolute;
+                pointer-events: none;
+            }
+
+            .ol-popup:after {
+                border-top-color: white;
+                border-width: 10px;
+                left: 48px;
+                margin-left: -10px;
+            }
+
+            .ol-popup:before {
+                border-top-color: #cccccc;
+                border-width: 11px;
+                left: 48px;
+                margin-left: -11px;
+            }
+    </style>
+    <meta name="description" content="Display popup on features">
+    <link href="~/assets/css/app.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.6.5/ol.css"></link>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.6.5/ol.js"></script>
+    <script>
+        var straitSource;
+        var map;
+    </script>
+    
+</head>
+
+<body>
+    <div id="map" style="height:600px;width:1024px;"></div>
+    <div id="popup" title="myproject" class="ol-popup"><a href="#" id="popup-closer" class="ol-popup-closer"></a><div id="popup-content"></div></div>
+    <script src="~/js/map.js"></script>
+
+    <div class="row top30">
+    <div class="col">
+        <button type="button" id="generatePoints" onclick="generateRandomPoints()" class="btn btn-primary btn-lg btn-block">Generar puntos aleatorios</button>
+    </div>
+</div>
+</body>
+
+</html>
