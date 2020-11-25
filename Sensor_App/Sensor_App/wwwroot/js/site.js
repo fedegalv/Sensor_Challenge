@@ -2,56 +2,20 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-//$(document).ready(function () {
-//    $("#btnSubmit").click(function (e) {
-//        //Serialize the form datas.   
-//        var valdata = $("#loginForm").serialize();
-//        //to get alert popup   
-//        alert(valdata);
-//        $.ajax({
-//            url: "/User/Login",
-//            type: "POST",
-//            dataType: 'json',
-//            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-//            data: valdata
-//        });
-//    });
-//});
-//let btnSubmit = document.getElementById("btnSubmit");
-//btn.addEventListener
-//window.addEventListener('load', iniciarBotones);
-//async function iniciarBotones() {
-//    const btnLogIn = document.getElementById('btnSubmit');
-//    btnLogIn.addEventListener('click', function () {
 
-//        var logIn = $("#loginForm").serialize();
-
-
-//        //console.log(logIn);
-//        logInPost(logIn);
-
-//    });
-//}
-
-//async function logInPost(userLogin) {
-//    //ARCHIVO CONFIG QUE VA EN FETCH
-//    console.log(userLogin);
-//    const config = {
-//        method: "POST",
-//        headers: {
-//            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-//        },
-//        data: JSON.stringify(userLogin) //PASAMOS COMO JSON STRING EL OBJETO
-//    }
-//    try {
-//        let res = await axios('https://localhost:44372/user/login', config);
-//        console.log("Login POST");
-//    }
-//    catch (error) {
-//        console.error(err.response.status, err.response.statusText);
-//    }
-//}
+$(window).on("load", function () {
+    $(".loader-wrapper").fadeOut("slow");
+    
+   
+});
 $('#msg').hide();
+$('#loginMessage').hide();
+$('#logoutMessage').hide();
+jQuery(function () {
+    $("#profilePicture").empty();
+    $("#profilePicture").append('<img src="/assets/img/user-13.jpg" />');
+});
+
 var Login = function () {
     var data = $('#loginForm').serialize();
     $.ajax({
@@ -65,7 +29,36 @@ var Login = function () {
             }
             else {
                 window.location.href = "/User/Inicio";
-                $('#msg').show();
+                alert("Sesion iniciada correctamente");
+                //$('#loginMessage').show();
+            }
+        }
+    })
+}
+
+showInPopup = (url, title) => {
+    $.ajax({
+        type: 'GET',
+        url: url,
+        success: function (res) {
+            $('#form-modal .modal-body').html(res);
+            $('#form-modal .modal-title').html(title);
+            $('#form-modal').modal('show');
+        }
+    })
+}
+var LogOut = function () {
+    $.ajax({
+        type: "GET",
+        url: "/User/LogOut",
+        success: function (result) {
+            if (result == "Fail") {
+                alert("ERROR al cerrar sesion");
+            }
+            else {
+                window.location.href = "/User/Inicio";
+                //$('#logoutMessage').show();
+                alert("Sesion cerrada correctamente");
             }
         }
     })

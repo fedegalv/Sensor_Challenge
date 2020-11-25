@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Sensor_App.DBContext;
 using Sensor_App.Interfaces;
 using Sensor_App.Repository;
+using System.Security.Claims;
 
 namespace Sensor_App
 {
@@ -23,8 +26,15 @@ namespace Sensor_App
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<SensorDbContext>(options => 
+            services.AddDbContext<SensorDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("SensorDbConnection")));
+            services.AddSession();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
             // UnitOfWork
             services.AddTransient<IUnitOfWork, UnitOfWork>();
@@ -49,8 +59,12 @@ namespace Sensor_App
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseCookiePolicy();
+            app.UseAuthentication();
 
             app.UseRouting();
 
@@ -60,7 +74,7 @@ namespace Sensor_App
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=User}/{action=LogIn}/");
+                    pattern: "{controller=User}/{action=Inicio}/");
             });
         }
     }

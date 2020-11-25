@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -8,28 +12,58 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
+    <div class="loader-wrapper">
+        <span class="loader"><span class="loader-inner"></span></span>
+    </div>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Sensor_App</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+        <div id="header" class="header navbar-default">
+            <!-- begin navbar-header -->
+            <div class="navbar-header">
+                <a href="index.html" class="navbar-brand"><span class="navbar-logo"></span> <b>Sensor</b> App</a>
+                <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                    </ul>
-                </div>
             </div>
-        </nav>
+            @if (httpContextAccessor.HttpContext.Session.GetString("LoginName") != null)
+            {
+                <ul class="navbar-nav navbar-right">
+                    <li class="dropdown navbar-user">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="profilePicture">
+
+
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+
+                            <a href="javascript:;" id="btnLogOut" onclick="LogOut()" dropdown-item">Log Out</a>
+                        </div>
+                    </li>
+                </ul>
+            }
+
+        </div>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="form-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+            </div>
+        </div>
     </div>
 
     <footer class="border-top footer text-muted">
