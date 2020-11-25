@@ -5,7 +5,6 @@ var view = new ol.View({
     zoom: 2
 });
 
-//raster layer on map
 var OSMBaseLayer = new ol.layer.Tile({
     source: new ol.source.OSM()
 });
@@ -33,7 +32,6 @@ var popup = new ol.Overlay({
 });
 map.addOverlay(popup);
 
-/* Add a pointermove handler to the map to render the popup.*/
 map.on('click', function (evt) {
     var feature = map.forEachFeatureAtPixel(evt.pixel, function (feat, layer) {
         return feat;
@@ -41,7 +39,7 @@ map.on('click', function (evt) {
     );
 
     if (feature && feature.get('type') == 'Point') {
-        var coordinate = evt.coordinate;    //default projection is EPSG:3857 you may want to use ol.proj.transform
+        var coordinate = evt.coordinate;
 
         content.innerHTML = feature.get('desc');
         popup.setPosition(coordinate);
@@ -77,7 +75,7 @@ var generateRandomPoints = function () {
 
 function addPointGeom(data) {
 
-    data.forEach(function (item) { //iterate through array...
+    data.forEach(function (item) {
         var longitude = item.Lon,
             latitude = item.Lat,
             iconFeature = new ol.Feature({
@@ -102,40 +100,4 @@ function addPointGeom(data) {
 
         straitSource.addFeature(iconFeature);
     });
-}// End of function showStraits()
-
-
-
-
-
-/*function addPointsGeom(data) {
-
-       var straitFeatures = data.map(item => { //iterate through array...
-           let longitude = item.Lon,
-               latitude = item.Lat,
-               iconFeature = new ol.Feature({
-                   geometry: new ol.geom.Point(ol.proj.transform([longitude, latitude], 'EPSG:4326',
-                       'EPSG:3857')),
-
-                   type: 'Point',
-                   desc: '<pre>Strait   : ' + '<br>' + 'Latitude : ' + latitude + '<br>Longitude: ' + longitude + '</pre>',
-                   id: 1
-               }),
-               iconStyle = new ol.style.Style({
-                   image: new ol.style.Circle({
-                       radius: 3,
-                       stroke: new ol.style.Stroke({
-                           color: 'blue'
-                       }),
-                       fill: new ol.style.Fill({
-                           color: [57, 228, 193, 0.84]
-                       }),
-                   })
-               });
-
-           iconFeature.setStyle(iconStyle);
-
-           straitSource.addFeature(iconFeature);
-         return iconFeature;
-       });
-   }*/
+}
