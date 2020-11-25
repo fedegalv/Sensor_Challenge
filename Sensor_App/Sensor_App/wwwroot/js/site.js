@@ -15,10 +15,10 @@ $('#loginMessage').hide();
 $('#logoutMessage').hide();
 
 //PROFILE PICTURE
-jQuery(function () {
-    $("#profilePicture").empty();
-    $("#profilePicture").append('<img src="/assets/img/user-13.jpg" />');
-});
+//jQuery(function () {
+//    $("#profilePicture").empty();
+//    $("#profilePicture").append('<img src="/assets/img/user-13.jpg" />');
+//});
 
 //LOGIN
 var Login = function () {

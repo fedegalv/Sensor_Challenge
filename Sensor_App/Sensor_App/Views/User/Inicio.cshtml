@@ -1,4 +1,7 @@
-﻿@{
+﻿
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
+@{
     ViewData["Title"] = "Log In";
 }
 
@@ -27,20 +30,25 @@
     Cerrado sesion correctamente
 </p>
 
-<div class="row top30">
-    <div class="col">
-        <button type="button" id="loginButton" onclick="showInPopup('@Url.Action("LogIn","User", null, Context.Request.Scheme)', 'Login')" class="btn btn-primary btn-lg btn-block">Mostrar LogIn</button>
+@if (httpContextAccessor.HttpContext.Session.GetString("LoginName") == null)
+{
+    <div class="row top30">
+        <div class="col">
+            <button type="button" id="loginButton" onclick="showInPopup('@Url.Action("LogIn","User", null, Context.Request.Scheme)', 'Login')" class="btn btn-primary btn-lg btn-block">Mostrar LogIn</button>
+        </div>
     </div>
-</div>
+}
+
+
 <div class="row top30">
     <div class="col">
-        <button type="button" onclick="@("window.location.href='" + @Url.Action("ListaUsuarios", "User") + "'");"  class="btn btn-primary btn-lg btn-block">Listado Usuarios y ABM</button>
+        <button type="button" onclick="@("window.location.href='" + @Url.Action("ListaUsuarios", "User") + "'");" class="btn btn-primary btn-lg btn-block">Listado Usuarios y ABM</button>
     </div>
     <div class="col">
         <button type="button" onclick="@("window.location.href='" + @Url.Action("ListaClientes", "Cliente") + "'");" class="btn btn-primary btn-lg btn-block">Listado Clientes y ABM</button>
     </div>
     <div class="col">
-        <button type="button" onclick="@("window.location.href='" + @Url.Action("Vermapa", "Mapa") + "'");"class="btn btn-primary btn-lg btn-block">Visualizacion en mapa de Marcadores</button>
+        <button type="button" onclick="@("window.location.href='" + @Url.Action("Vermapa", "Mapa") + "'");" class="btn btn-primary btn-lg btn-block">Visualizacion en mapa de Marcadores</button>
     </div>
 </div>
 <!-- ================== BEGIN BASE JS ================== -->

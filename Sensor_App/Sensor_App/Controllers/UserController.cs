@@ -46,12 +46,12 @@ namespace Sensor_App.Controllers
                 }
                 var principal = new ClaimsPrincipal(identity);
                 var login = HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-                HttpContext.Session.SetString("LoginName", getUser.NombreUsuario);
+                HttpContext.Session.SetString("LoginName", getUser.Nombre);
                 resultado = "Sucess";
             }
             return Json(resultado);
         }
-
+        [HttpGet]
         public async Task<IActionResult> LogOut()
         {
             var resultado = "Fail";
