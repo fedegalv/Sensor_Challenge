@@ -23,18 +23,15 @@ namespace Sensor_App.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginUserModel user)
+        public async Task<ActionResult> Login(LoginUserModel user)
         {
+            string resultado = "Fail";
             var getUser = await _unitOfWork.UserRepository.AuthenticationAsync(user.Usuario, user.Contrasenia);
             if (getUser != null)
             {
-                return RedirectToAction("Inicio", "User");
+                resultado = "Sucess";
             }
-            else
-            {
-                ViewBag.Error = "Error al autenticar, usuario o contraseña incorrectos";
-                return View();
-            }
+            return Json(resultado);
         }
         [HttpGet]
         public IActionResult Inicio()

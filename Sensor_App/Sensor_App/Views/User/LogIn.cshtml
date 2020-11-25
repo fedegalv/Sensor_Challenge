@@ -1,4 +1,4 @@
-﻿@model Sensor_App.Models.LoginUserModel;    
+﻿@model Sensor_App.Models.LoginUserModel;
 @{
     ViewData["Title"] = "LogIn";
 }
@@ -20,7 +20,7 @@
     <!-- ================== END BASE CSS STYLE ================== -->
 </head>
 <body class="pace-top">
-   
+
     <!-- begin #page-container -->
     <div id="page-container" class="">
         <!-- begin login -->
@@ -39,32 +39,28 @@
                 <div class="login-body">
                     <!-- begin login-content -->
                     <div class="login-content">
-                        @using (Html.BeginForm("Login", "User", FormMethod.Post, new { @class = "LoginUserModel" }))
-                        {
-                            @Html.AntiForgeryToken()
 
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <form id="loginForm">
                             <div class="form-group m-b-20">
                                 <input type="text" id="userId" name="Usuario" class="form-control form-control-lg inverse-mode" placeholder="Usuario o Email" required />
                             </div>
-                            @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger" })
+
                             <div class="form-group m-b-20">
                                 <input type="password" id="passwordId" name="Contrasenia" class="form-control form-control-lg inverse-mode" placeholder="Password" required />
                             </div>
-                            @Html.ValidationMessageFor(model => model.Contrasenia, "", new { @class = "text-danger" })
+
                             <div class="login-buttons">
-                                <button type="submit" class="btn btn-success btn-block btn-lg">LogIn</button>
+                                <button id="btnSubmit" type="button" class="btn btn-success btn-block btn-lg" onclick="Login()">LogIn</button>
                             </div>
-                        }
-                        @if (ViewBag.Error != null)
-                        {
-                            <div style="color:red" role="alert">
-                                @ViewBag.Error
-                            </div>
-                        }
+                        </form>
+
+                        <div id="msg" style="color:red" role="alert">
+                            Credenciales invalidas.
+                        </div>
+
                     </div>
                     <!-- end login-content -->
-                 
+
                 </div>
                 <!-- end login-body -->
             </div>
