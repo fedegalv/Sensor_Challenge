@@ -18,9 +18,11 @@ namespace Sensor_App.Models
 
         [Required]
         [StringLength(30)]
+        [Display(Name = "Razon social")]
         public string RazonSocial { get; set; }
 
         [Required]
+        [Display(Name = "Nro sucursal")]
         public int NroSucursal { get; set; }
 
         [Required]
@@ -36,6 +38,7 @@ namespace Sensor_App.Models
         public string Ciudad { get; set; }
 
         [Required]
+        [Display(Name = "Codigo ostal")]
         public int CodPostal { get; set; }
 
         [Required]

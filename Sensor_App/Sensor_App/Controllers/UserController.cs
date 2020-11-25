@@ -82,5 +82,12 @@ namespace Sensor_App.Controllers
         {
             return View(await _unitOfWork.UserRepository.GetAllAsync());
         }
+
+        [Authorize(Roles = "Alta_Usuario")]
+        [HttpGet]
+        public ActionResult Crear()
+        {
+            return View();
+        }
     }
 }

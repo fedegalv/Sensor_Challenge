@@ -31,10 +31,12 @@ namespace Sensor_App.Models
 
         [Required]
         [StringLength(20)]
+        [Display(Name = "Nobre Usuario")]
         public string NombreUsuario { get; set; }
 
         [Required]
         [StringLength(100)]
+        [Display(Name = "Contraseña")]
         public string Contrasenia { get; set; }
 
         public virtual ICollection<PermisoTipo> Permisos { get; set; }
@@ -52,8 +54,3 @@ namespace Sensor_App.Models
         //public int PermisosID { get; set; }
     }
 }
-
-//get
-//{ return Cliente; }
-//set
-//{ Cliente = value; }

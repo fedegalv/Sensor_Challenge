@@ -18,7 +18,7 @@
 <h1>ListaUsuarios</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <button type="button" class="btn btn-primary"  id="crerUserButton" onclick="showInPopup('@Url.Action("Crear","User", null, Context.Request.Scheme)', 'Crear usuario')">Crear Usuario</button>
 </p>
 <table id="table_id" class="table display">
     <thead>
