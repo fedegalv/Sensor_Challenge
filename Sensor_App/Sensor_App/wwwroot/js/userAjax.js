@@ -1,19 +1,32 @@
-﻿var crearUsuario = function () {
-    var data = $('#loginForm').serialize();
-    $.ajax({
-        type: "post",
-        url: "/User/Login",
-        data: data,
-        success: function (result) {
-            if (result == "Fail") {
-                $('#loginForm')[0].reset;
-                $('#msg').show();
+﻿jQueryAjaxPost = form => {
+    try {
+        $.ajax({
+            type: 'POST',
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                if (res.isValid) {
+                    $("#view-all").html(res);
+                    $('#form-modal .modal-body').html('');
+                    $('#form-modal .modal-title').html('');
+                    $('#form-modal').modal('hide')
+                }
+                else {
+                    $('#form-modal .modal-body').html(res.html);
+                }
+            },
+            error: function (err) {
+                console.log(err);
             }
-            else {
-                window.location.href = "/User/Inicio";
-                alert("Sesion iniciada correctamente");
-                //$('#loginMessage').show();
-            }
-        }
-    })
+
+        });
+
+    } catch (e) {
+
+    }
+
+
+    return false;
 }

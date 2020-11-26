@@ -9,6 +9,8 @@ namespace Sensor_App.Interfaces
     {
         IUserRepository UserRepository { get; }
         IClienteRepository ClienteRepository { get; }
+
+        IPermisoTipoRepository PermisoTipoRepository { get; }
         void SaveChanges();
         Task SaveChangesAsync();
 

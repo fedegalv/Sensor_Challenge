@@ -10,5 +10,6 @@ namespace Sensor_App.Interfaces
     {
         Task<User> AuthenticationAsync(string userName, string pass);
         Task<List<User>> GetAllUsersAsync();
+        Task<User> GetUserByIdAsync(int id);
     }
 }

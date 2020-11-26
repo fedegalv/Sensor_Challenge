@@ -12,7 +12,7 @@ namespace Sensor_App.Models
         public int Id { get; set; }
         public PermisosEnum Permiso { get; set; }
         //[ForeignKey("User")]
-        //public int UsuarioId { get; set; }
+        public int UserId { get; set; }
         //public int ListadoUsuarios { get { return (int)PermisosEnum.Listado_Usuario; } set { this.ListadoUsuarios = value; } }
         //public int ModificacionUsuario { get { return (int)PermisosEnum.Modificacion_Usuario; } set { this.ModificacionUsuario = value; } }
         //public int BajaUsuario { get { return (int)PermisosEnum.Baja_Usuario; } set { this.BajaUsuario = value; } }

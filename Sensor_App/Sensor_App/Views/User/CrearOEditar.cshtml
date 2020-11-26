@@ -4,8 +4,9 @@
 }
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Crear">
+        <form asp-action="CrearOEditar" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
                 <input asp-for="Nombre" class="form-control" />
@@ -32,7 +33,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Permisos" class="control-label"></label>
-                <select class="permisos-multiple" name="permisos[]" multiple="multiple" name="Permisos">
+                <select class="permisos-multiple" name="Permisos[]" multiple="multiple">
                     <option value="0">Listado cliente</option>
                     <option value="1">Alta cliente</option>
                     <option value="2">Baja cliente</option>
@@ -51,7 +52,10 @@
         </form>
     </div>
 </div>
-
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script src="~/js/userAjax.js"></script>
 <script>
     $(document).ready(function () {
         $('.cliente-select').select2();

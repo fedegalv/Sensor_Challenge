@@ -10,8 +10,8 @@ using Sensor_App.DBContext;
 namespace Sensor_App.Migrations
 {
     [DbContext(typeof(SensorDbContext))]
-    [Migration("20201124221037_SecondMigration")]
-    partial class SecondMigration
+    [Migration("20201126154217_new1")]
+    partial class new1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -96,14 +96,14 @@ namespace Sensor_App.Migrations
                     b.Property<int>("Permiso")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PermisoTipo");
+                    b.ToTable("PermisoTipos");
                 });
 
             modelBuilder.Entity("Sensor_App.Models.Seguro", b =>
@@ -170,7 +170,9 @@ namespace Sensor_App.Migrations
                 {
                     b.HasOne("Sensor_App.Models.User", null)
                         .WithMany("Permisos")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Sensor_App.Models.Seguro", b =>

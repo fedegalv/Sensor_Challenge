@@ -48,6 +48,8 @@ namespace Sensor_App
 
             //Cliente
             services.AddTransient<IClienteRepository, ClienteRepository>();
+            //Cliente
+            services.AddTransient<IPermisoTipoRepository, PermisoTipoRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

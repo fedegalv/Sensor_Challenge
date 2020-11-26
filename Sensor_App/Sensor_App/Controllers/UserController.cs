@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Sensor_App.BusinessLogic;
 using Sensor_App.DBContext;
 using Sensor_App.Interfaces;
 using Sensor_App.Models;
@@ -92,17 +94,62 @@ namespace Sensor_App.Controllers
 
         [Authorize(Roles = "Alta_Usuario")]
         [HttpGet]
-        public ActionResult Crear()
+        public async Task<ActionResult> CrearOEditar(int id=0)
         {
+            if (id == 0)
+            {
+                return View(new User());
+            }
+            else
+            {
+                var user = await _unitOfWork.UserRepository.GetUserByIdAsync(id);
+            }
             return View();
         }
-
         [Authorize(Roles = "Alta_Usuario")]
         [HttpPost]
-        public ActionResult Crear(User res, string Cliente, string[] Permisos)
+        public async Task<ActionResult> CrearOEditar(int id,[Bind("Id, Nombre, Descripcion, NombreUsuario, Contrasenia, Cliente, Permisos")] User user, string Cliente, string[] Permisos)
         {
-            
-            return View();
+            if (ModelState.IsValid)
+            {
+                if (id == 0)
+                {
+                    //GET CLIENTE
+                    var cliente = await _unitOfWork.ClienteRepository.GetById(Int32.Parse(Cliente));
+                    //PERMISOS
+                    //foreach (var item in Permisos)
+                    //{
+                    //    var permiso = new PermisoTipo {Permiso = (Models.Enums.PermisosEnum)Int32.Parse(item)};
+                    //    await _unitOfWork.PermisoTipoRepository.Add(permiso);
+                    //}
+                   
+                    await _unitOfWork.UserRepository.Add(user);
+                    await _unitOfWork.SaveChangesAsync();
+                    _unitOfWork.PermisoTipoRepository.AddParameterizedPermiso(Permisos, user.Id);
+                }
+                else
+                {
+                    try
+                    {
+                        _unitOfWork.UserRepository.Update(user);
+                        await _unitOfWork.SaveChangesAsync();
+                    }
+                    catch (Exception)
+                    {
+                        return NotFound();
+                    }
+                }
+                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_VerUsuarios", _unitOfWork.UserRepository.GetAll().ToList()) });
+            }
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CrearOEditar", user) });
         }
+
+        //[Authorize(Roles = "Alta_Usuario")]
+        //[HttpPost]
+        //public ActionResult CrearOEditar(User res, string Cliente, string[] Permisos)
+        //{
+            
+        //    return View();
+        //}
     }
 }

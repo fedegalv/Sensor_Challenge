@@ -27,6 +27,19 @@ namespace Sensor_App.Repository
                 throw e;
             }
         }
+        public async Task<User> GetUserByIdAsync(int id)
+        {
+            try
+            {
+                var u = await _entities.Where(x => x.Id == id).Include(user => user.Cliente).Include(user => user.Permisos).FirstOrDefaultAsync();
+                return u;
+            }
+            catch (System.Exception e)
+            {
+
+                throw e;
+            }
+        }
 
         public async Task<List<User>> GetAllUsersAsync()
         {

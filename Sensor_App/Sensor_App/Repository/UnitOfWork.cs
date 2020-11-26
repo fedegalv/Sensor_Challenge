@@ -6,15 +6,17 @@ namespace Sensor_App.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly SensorDbContext _context;
+        public readonly SensorDbContext _context;
         private readonly IUserRepository _userRepository;
         private readonly IClienteRepository _clienteRepository;
+        private readonly IPermisoTipoRepository _permisoTipoRepository;
         public UnitOfWork(SensorDbContext context)
         {
             _context = context;
         }
         public IUserRepository UserRepository => _userRepository ?? new UserRepository(_context);
         public IClienteRepository ClienteRepository => _clienteRepository ?? new ClienteRepository(_context);
+        public IPermisoTipoRepository PermisoTipoRepository => _permisoTipoRepository ?? new PermisoTipoRepository(_context);
 
         public void Dispose()
         {

@@ -18,25 +18,26 @@ namespace Sensor_App.Models
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
+        [Required(ErrorMessage ="Este campo es requerido")]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Este campo es requerido")]
         [StringLength(30)]
         public string Nombre { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Este campo es requerido")]
         [StringLength(50)]
         public string Descripcion { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Este campo es requerido")]
         [StringLength(20)]
         [Display(Name = "Nombre Usuario")]
         public string NombreUsuario { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Este campo es requerido")]
         [StringLength(100)]
         [Display(Name = "Contraseña")]
+        [DataType(DataType.Password)]
         public string Contrasenia { get; set; }
 
         public virtual ICollection<PermisoTipo> Permisos { get; set; }
