@@ -19,7 +19,7 @@
 <h1>Lista de Clientes</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <button type="button" class="btn btn-primary" id="crerUserButton" onclick="showInPopup('@Url.Action("Crear","Cliente", null, Context.Request.Scheme)', 'Crear cliente')">Crear Cliente</button>
 </p>
 <table id="table_id" class="table display">
     <thead>
@@ -104,18 +104,23 @@
                     @Html.DisplayFor(modelItem => item.Activo)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.ClienteId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ClienteId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ClienteId">Delete</a>
+                    <a onclick="showInPopup('@Url.Action("Editar", "Cliente", new { id = item.ClienteId}, Context.Request.Scheme)', 'Modificar cliente')" class="btn btn-info text-white">Editar</a> |
+                    <form asp-action="EliminarCliente" asp-route-id="@item.ClienteId" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
+                        <input type="submit" value="Eliminar" class="btn btn-danger" />
+                    </form>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
+
+<div>
+    <button type="button" onclick="@("window.location.href='" + @Url.Action("Inicio", "User") + "'");" class="btn btn-primary">Volver a inicio</button>
+</div>
 <!-- ================== BEGIN BASE JS ================== -->
 
 <script src="~/js/theme/default.min.js"></script>
-
-
+<script src="~/js/site.js"></script>
+<script src="~/js/userAjax.js"></script>
 <!-- ================== END BASE JS ================== -->

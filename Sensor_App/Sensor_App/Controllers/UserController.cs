@@ -73,7 +73,7 @@ namespace Sensor_App.Controllers
 
                 return Json(resultado);
             }
-            
+
         }
 
         [HttpGet]
@@ -87,14 +87,12 @@ namespace Sensor_App.Controllers
         public async Task<ActionResult> ListaUsuarios()
         {
             var users = await _unitOfWork.UserRepository.GetAllUsersAsync();
-            //var userViewModel = _mapper.Map<IEnumerable<UserViewModel>>(users);
-            //IEnumerable<UserViewModel> userViewModel = _mapper.Map<User, IEnumerable<UserViewModel>>(users);
             return View(users);
         }
 
-        [Authorize(Roles = "Alta_Usuario")]
+        [Authorize(Roles = "Alta_Usuario, Modificacion_Usuario")]
         [HttpGet]
-        public async Task<ActionResult> CrearOEditar(int id=0)
+        public async Task<ActionResult> CrearOEditar(int id = 0)
         {
             if (id == 0)
             {
@@ -105,11 +103,41 @@ namespace Sensor_App.Controllers
                 var user = await _unitOfWork.UserRepository.GetUserByIdAsync(id);
                 return View(user);
             }
-           
+
         }
         [Authorize(Roles = "Alta_Usuario")]
+        [HttpGet]
+        public async Task<ActionResult> Crear(int id = 0)
+        {
+            if (id == 0)
+            {
+                return View(new User());
+            }
+            else
+            {
+                var user = await _unitOfWork.UserRepository.GetUserByIdAsync(id);
+                return View(user);
+            }
+
+        }
+        [Authorize(Roles = "Modificacion_Usuario")]
+        [HttpGet]
+        public async Task<ActionResult> Editar(int id = 0)
+        {
+            if (id == 0)
+            {
+                return View(new User());
+            }
+            else
+            {
+                var user = await _unitOfWork.UserRepository.GetUserByIdAsync(id);
+                return View(user);
+            }
+
+        }
+        [Authorize(Roles = "Alta_Usuario, Modificacion_Usuario")]
         [HttpPost]
-        public async Task<ActionResult> CrearOEditar(int id,[Bind("Id, Nombre, Descripcion, NombreUsuario, Contrasenia, Cliente, Permisos")] User user, string Cliente, string[] Permisos)
+        public async Task<ActionResult> CrearOEditar(int id, [Bind("Id, Nombre, Descripcion, NombreUsuario, Contrasenia, Cliente, Permisos")] User user, string Cliente, string[] Permisos)
         {
             if (ModelState.IsValid)
             {
@@ -138,17 +166,80 @@ namespace Sensor_App.Controllers
                         return NotFound();
                     }
                 }
-                return Json(new { isValid = true});
+                return Json(new { isValid = true });
             }
-            return Json(new { isValid = false});
+            return Json(new { isValid = false });
         }
 
-        //[Authorize(Roles = "Alta_Usuario")]
-        //[HttpPost]
-        //public ActionResult CrearOEditar(User res, string Cliente, string[] Permisos)
-        //{
-            
-        //    return View();
-        //}
+        [Authorize(Roles = "Modificacion_Usuario")]
+        [HttpPost]
+        public async Task<ActionResult> Editar(int id, [Bind("Id, Nombre, Descripcion, NombreUsuario, Contrasenia, Cliente, Permisos")] User user, string Cliente, string[] Permisos)
+        {
+            if (ModelState.IsValid)
+            {
+                if (id != 0)
+                {
+                    try
+                    {
+                        user.ClienteID = Int32.Parse(Cliente);
+                        _unitOfWork.UserRepository.Update(user);
+                        await _unitOfWork.SaveChangesAsync();
+                        await _unitOfWork.PermisoTipoRepository.CleanPermisos(user.Id);
+                        await _unitOfWork.PermisoTipoRepository.AddParameterizedPermiso(Permisos, user.Id);
+                    }
+                    catch (Exception)
+                    {
+                        return NotFound();
+                    }
+
+                    return Json(new { isValid = true });
+                }
+                
+            }
+            return Json(new { isValid = false });
+        }
+
+        [Authorize(Roles = "Alta_Usuario")]
+        [HttpPost]
+        public async Task<ActionResult> Crear(int id, [Bind("Id, Nombre, Descripcion, NombreUsuario, Contrasenia, Cliente, Permisos")] User user, string Cliente, string[] Permisos)
+        {
+            if (ModelState.IsValid)
+            {
+                if (id == 0)
+                {
+                    //GET CLIENTE
+                    //var cliente = await _unitOfWork.ClienteRepository.GetById(Int32.Parse(Cliente));
+                    //PERMISOS
+                    user.ClienteID = Int32.Parse(Cliente);
+                    await _unitOfWork.UserRepository.Add(user);
+                    await _unitOfWork.SaveChangesAsync();
+                    await _unitOfWork.PermisoTipoRepository.AddParameterizedPermiso(Permisos, user.Id);
+                }
+                return Json(new { isValid = true });
+            }
+            return Json(new { isValid = false });
+        }
+        [HttpPost]
+        [Authorize(Roles = "Baja_Usuario")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EliminarUsuario(int id)
+        {
+            try
+            {
+                //var user = _unitOfWork.UserRepository.GetUserByIdAsync(id);
+                await _unitOfWork.UserRepository.Delete(id);
+                await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.PermisoTipoRepository.CleanPermisos(id);
+                return Json(new { isValid = true });
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { isValid = false });
+            }
+
+        }
+
+
     }
 }

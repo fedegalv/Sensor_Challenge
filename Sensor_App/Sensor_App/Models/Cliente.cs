@@ -38,7 +38,7 @@ namespace Sensor_App.Models
         public string Ciudad { get; set; }
 
         [Required]
-        [Display(Name = "Codigo ostal")]
+        [Display(Name = "Codigo postal")]
         public int CodPostal { get; set; }
 
         [Required]

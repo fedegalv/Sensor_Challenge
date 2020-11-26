@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sensor_App.Interfaces;
+using Sensor_App.Models;
 
 namespace Sensor_App.Controllers
 {
@@ -19,7 +20,13 @@ namespace Sensor_App.Controllers
         [HttpGet]
         public async Task<ActionResult> ListaClientes()
         {
-            return View(await _unitOfWork.ClienteRepository.GetAllAsync());
+            var clientes = await _unitOfWork.ClienteRepository.GetAllAsync();
+            return View(clientes);
+        }
+
+        public ActionResult Crear()
+        {
+            return View(new Cliente());
         }
     }
 }

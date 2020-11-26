@@ -1,6 +1,7 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
 
+
 // Write your JavaScript code.
 
 //LOADER
@@ -42,7 +43,7 @@ var Login = function () {
         }
     })
 }
-//LOGIN MODAL
+// MODAL
 showInPopup = (url, title) => {
     $.ajax({
         type: 'GET',
@@ -51,7 +52,12 @@ showInPopup = (url, title) => {
             $('#form-modal .modal-body').html(res);
             $('#form-modal .modal-title').html(title);
             $('#form-modal').modal('show');
+        },
+        error: function (err) {
+            alert("No se pudo ejecutar la accion, revise si tiene los permisos necesarios.");
+            console.log(err);
         }
+       
     })
 }
 

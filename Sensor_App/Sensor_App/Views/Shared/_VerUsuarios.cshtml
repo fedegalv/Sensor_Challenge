@@ -47,9 +47,10 @@
                 </select>
             </td>
             <td>
-                <a onclick="showInPopup('@Url.Action("CrearOEditar", "User", new { id = item.Id}, Context.Request.Scheme)', 'Modificar usuario')" class="btn btn-info text-white">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a onclick="showInPopup('@Url.Action("Editar", "User", new { id = item.Id}, Context.Request.Scheme)', 'Modificar usuario')" class="btn btn-info text-white">Editar</a> |
+                <form asp-action="EliminarUsuario" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
+                    <input type="submit" value="Eliminar" class="btn btn-danger" />
+                </form>
             </td>
 
         </tr>
@@ -57,4 +58,4 @@
     </tbody>
 </table>
 
-<script src="~/js/site.js"></script>
+<script src="~/js/userAjax.js"></script>
