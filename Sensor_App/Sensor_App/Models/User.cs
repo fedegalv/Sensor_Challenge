@@ -47,7 +47,7 @@ namespace Sensor_App.Models
 
         //[ForeignKey("ClienteID")]
         //public Cliente Cliente {get;set;}
-        //public int ClienteID { get; set; }
+        public int ClienteID { get; set; }
 
         //[ForeignKey("PermisosID")]
         //[Required]

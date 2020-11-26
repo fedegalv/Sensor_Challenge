@@ -115,14 +115,9 @@ namespace Sensor_App.Controllers
                 if (id == 0)
                 {
                     //GET CLIENTE
-                    var cliente = await _unitOfWork.ClienteRepository.GetById(Int32.Parse(Cliente));
+                    //var cliente = await _unitOfWork.ClienteRepository.GetById(Int32.Parse(Cliente));
                     //PERMISOS
-                    //foreach (var item in Permisos)
-                    //{
-                    //    var permiso = new PermisoTipo {Permiso = (Models.Enums.PermisosEnum)Int32.Parse(item)};
-                    //    await _unitOfWork.PermisoTipoRepository.Add(permiso);
-                    //}
-                   
+                    user.ClienteID = Int32.Parse(Cliente);
                     await _unitOfWork.UserRepository.Add(user);
                     await _unitOfWork.SaveChangesAsync();
                     _unitOfWork.PermisoTipoRepository.AddParameterizedPermiso(Permisos, user.Id);
