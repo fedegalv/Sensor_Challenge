@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sensor_App.Interfaces
 {
-    public interface IClienteRepository : IGenericRepository<Cliente>
+    public interface ISegurosRepository : IGenericRepository<Seguro>
     {
-        Task<Cliente> GetClienteByIdAsync(int id);
     }
 }

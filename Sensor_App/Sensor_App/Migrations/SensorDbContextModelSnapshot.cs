@@ -52,7 +52,7 @@ namespace Sensor_App.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
-                    b.Property<int>("NroSucursal")
+                    b.Property<int>("NroRuc")
                         .HasColumnType("int");
 
                     b.Property<string>("Pais")
@@ -123,7 +123,7 @@ namespace Sensor_App.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("Seguro");
+                    b.ToTable("Seguros");
                 });
 
             modelBuilder.Entity("Sensor_App.Models.User", b =>

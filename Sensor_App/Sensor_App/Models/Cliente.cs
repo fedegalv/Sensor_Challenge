@@ -9,7 +9,7 @@ namespace Sensor_App.Models
     {
         public Cliente()
         {
-            Seguro = new HashSet<Seguro>();
+            //Seguro = new HashSet<Seguro>();
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -22,8 +22,8 @@ namespace Sensor_App.Models
         public string RazonSocial { get; set; }
 
         [Required]
-        [Display(Name = "Nro sucursal")]
-        public int NroSucursal { get; set; }
+        [Display(Name = "Nro RUC")]
+        public int NroRuc { get; set; }
 
         [Required]
         [StringLength(30)]

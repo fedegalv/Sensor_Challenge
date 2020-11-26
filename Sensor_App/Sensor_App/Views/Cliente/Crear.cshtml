@@ -4,23 +4,24 @@
 }
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="Crear">
+        <form asp-action="Crear" asp-route-id="@Model.ClienteId" onsubmit="return jQueryAjaxPostCliente(this);" autocomplete="off">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ClienteId" />
             <div class="form-group row">
                 <label asp-for="RazonSocial" class="control-label col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">
                     <input asp-for="RazonSocial" class="form-control" />
                     <span asp-validation-for="RazonSocial" class="text-danger"></span>
                 </div>
-                
+
             </div>
             <div class="form-group row">
-                <label asp-for="NroSucursal" class="control-label col-sm-2 col-form-label"></label>
+                <label asp-for="NroRuc" class="control-label col-sm-2 col-form-label"></label>
                 <div class="col-sm-3">
-                    <input asp-for="NroSucursal" class="form-control" />
-                    <span asp-validation-for="NroSucursal" class="text-danger"></span>
+                    <input asp-for="NroRuc" class="form-control" />
+                    <span asp-validation-for="NroRuc" class="text-danger"></span>
                 </div>
-                
+
             </div>
             <div class="form-group row">
                 <label asp-for="Direccion" class="control-label col-sm-2 col-form-label"></label>
@@ -28,23 +29,29 @@
                     <input asp-for="Direccion" class="form-control" />
                     <span asp-validation-for="Direccion" class="text-danger"></span>
                 </div>
-                
+
             </div>
             <div class="form-group row">
                 <label asp-for="Pais" class="control-label col-sm-2 col-form-label"></label>
-                <div class="col-sm-5">
-                    <input asp-for="Pais" class="form-control" />
-                    <span asp-validation-for="Pais" class="text-danger"></span>
+                <div class="col-sm-10">
+                    <select class="pais-selector" name="Pais">
+                        <option value="Argentina">Argentina</option>
+                        <option value="Uruguay">Uruguay</option>
+                        <option value="Brasil">Brasil</option>
+                        <option value="USA">USA</option>
+                        <option value="China">China</option>
+                        <option value="Alemania">Alemania</option>
+                    </select>
                 </div>
-                
             </div>
+
             <div class="form-group row">
                 <label asp-for="Ciudad" class="control-label col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">
                     <input asp-for="Ciudad" class="form-control" />
                     <span asp-validation-for="Ciudad" class="text-danger"></span>
                 </div>
-                
+
             </div>
             <div class="form-group row">
                 <label asp-for="CodPostal" class="control-label col-sm-2 col-form-label"></label>
@@ -52,15 +59,19 @@
                     <input asp-for="CodPostal" class="form-control" />
                     <span asp-validation-for="CodPostal" class="text-danger"></span>
                 </div>
-                
+
             </div>
             <div class="form-group row">
                 <label asp-for="Zona" class="control-label col-sm-2 col-form-label"></label>
                 <div class="col-sm-5">
-                    <select asp-for="Zona" class="form-control"></select>
+                    <select asp-for="Zona" class="form-control">
+                        <option value="0">Norte</option>
+                        <option value="1">Centro</option>
+                        <option value="2">Sur</option>
+                    </select>
                     <span asp-validation-for="Zona" class="text-danger"></span>
                 </div>
-                
+
             </div>
             <div class="form-group row">
                 <label asp-for="Telefono" class="control-label col-sm-2 col-form-label"></label>
@@ -68,7 +79,7 @@
                     <input asp-for="Telefono" class="form-control" />
                     <span asp-validation-for="Telefono" class="text-danger"></span>
                 </div>
-                
+
             </div>
             <div class="form-group row">
                 <label asp-for="Fax" class="control-label col-sm-2 col-form-label"></label>
@@ -76,7 +87,7 @@
                     <input asp-for="Fax" class="form-control" />
                     <span asp-validation-for="Fax" class="text-danger"></span>
                 </div>
-               
+
             </div>
             <div class="form-group row">
                 <label asp-for="Email" class="control-label col-sm-2 col-form-label"></label>
@@ -84,7 +95,7 @@
                     <input asp-for="Email" class="form-control" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-                
+
             </div>
             <div class="form-group row">
                 <label asp-for="Web" class="control-label col-sm-2 col-form-label"></label>
@@ -93,6 +104,66 @@
                     <span asp-validation-for="Web" class="text-danger"></span>
                 </div>
             </div>
+
+            <fieldset>
+                <legend>Seguro</legend>
+                <div class="row bg-light text-dark">
+                    <div class="col-sm-6 border border-dark">
+                        Descripcion
+                    </div>
+                    <div class="col-sm-2 border border-dark">
+                        Si
+                    </div>
+                    <div class="col-sm-2 border border-dark">
+                        No
+                    </div>
+                    <div class="col-sm-2 border border-dark">
+                        Opcional
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-sm-6 border border-dark">
+                        Uruguay - Transitos
+                    </div>
+                    <div class="col-sm-2 border border-dark">
+                        <div class="form-check">
+                            <input class="form-check-input position-static" type="radio" name="uruguayTransito" value="0" aria-label="...">
+                        </div>
+                    </div>
+                    <div class="col-sm-2 border border-dark">
+                        <div class="form-check">
+                            <input class="form-check-input position-static" type="radio" name="uruguayTransito" value="1" aria-label="...">
+                        </div>
+                    </div>
+                    <div class="col-sm-2 border border-dark">
+                        <div class="form-check">
+                            <input class="form-check-input position-static" type="radio" name="uruguayTransito" value="2" aria-label="...">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 border border-dark">
+                        Uruguay - Transitos carga suelta
+                    </div>
+                    <div class="col-sm-2 border border-dark">
+                        <div class="form-check">
+                            <input class="form-check-input position-static" type="radio" name="cargaSuelta" value="0" aria-label="...">
+                        </div>
+                    </div>
+                    <div class="col-sm-2 border border-dark">
+                        <div class="form-check">
+                            <input class="form-check-input position-static" type="radio" name="cargaSuelta" value="1" aria-label="...">
+                        </div>
+                    </div>
+                    <div class="col-sm-2 border border-dark">
+                        <div class="form-check">
+                            <input class="form-check-input position-static" type="radio" name="cargaSuelta" value="2" aria-label="...">
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Activo" /> @Html.DisplayNameFor(model => model.Activo)
@@ -104,3 +175,12 @@
         </form>
     </div>
 </div>
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script src="~/js/userAjax.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.pais-selector').select2();
+    });
+</script>

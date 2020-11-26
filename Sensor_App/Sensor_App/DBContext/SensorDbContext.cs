@@ -17,6 +17,7 @@ namespace Sensor_App.DBContext
         public DbSet<User> Users { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<PermisoTipo> PermisoTipos { get; set; }
+        public DbSet<Seguro> Seguros { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
