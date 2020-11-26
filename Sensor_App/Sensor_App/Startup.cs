@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Sensor_App.DBContext;
 using Sensor_App.Interfaces;
 using Sensor_App.Repository;
+using System;
 using System.Security.Claims;
 
 namespace Sensor_App
@@ -35,6 +37,8 @@ namespace Sensor_App
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+            // AutoMapper
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // UnitOfWork
             services.AddTransient<IUnitOfWork, UnitOfWork>();

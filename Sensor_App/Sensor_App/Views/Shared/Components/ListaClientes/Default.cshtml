@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Sensor_App.Models.Cliente>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<select class="cliente-select" name="Cliente">
+    @foreach (var item in Model)
+    {
+        <option value="@item.ClienteId">@item.RazonSocial</option>
+    }
+</select>
+

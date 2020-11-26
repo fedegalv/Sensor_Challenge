@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -11,15 +12,18 @@ using Microsoft.AspNetCore.Mvc;
 using Sensor_App.DBContext;
 using Sensor_App.Interfaces;
 using Sensor_App.Models;
+using Sensor_App.Models.ViewModel;
 
 namespace Sensor_App.Controllers
 {
     public class UserController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        public UserController(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public UserController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
         [HttpGet]
         public IActionResult LogIn()
@@ -80,13 +84,24 @@ namespace Sensor_App.Controllers
         [HttpGet]
         public async Task<ActionResult> ListaUsuarios()
         {
-            return View(await _unitOfWork.UserRepository.GetAllAsync());
+            var users = await _unitOfWork.UserRepository.GetAllUsersAsync();
+            //var userViewModel = _mapper.Map<IEnumerable<UserViewModel>>(users);
+            //IEnumerable<UserViewModel> userViewModel = _mapper.Map<User, IEnumerable<UserViewModel>>(users);
+            return View(users);
         }
 
         [Authorize(Roles = "Alta_Usuario")]
         [HttpGet]
         public ActionResult Crear()
         {
+            return View();
+        }
+
+        [Authorize(Roles = "Alta_Usuario")]
+        [HttpPost]
+        public ActionResult Crear(User res, string Cliente, string[] Permisos)
+        {
+            
             return View();
         }
     }

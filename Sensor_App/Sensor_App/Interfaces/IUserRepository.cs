@@ -9,5 +9,6 @@ namespace Sensor_App.Interfaces
     public interface IUserRepository : IGenericRepository<User>
     {
         Task<User> AuthenticationAsync(string userName, string pass);
+        Task<List<User>> GetAllUsersAsync();
     }
 }

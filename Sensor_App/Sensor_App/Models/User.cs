@@ -31,7 +31,7 @@ namespace Sensor_App.Models
 
         [Required]
         [StringLength(20)]
-        [Display(Name = "Nobre Usuario")]
+        [Display(Name = "Nombre Usuario")]
         public string NombreUsuario { get; set; }
 
         [Required]
