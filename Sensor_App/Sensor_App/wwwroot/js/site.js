@@ -33,6 +33,8 @@ var Login = function () {
                 $('#msg').show();
             }
             else {
+                
+                //$.notify("Sesion iniciada correctamente", "sucess");
                 window.location.href = "/User/Inicio";
                 alert("Sesion iniciada correctamente");
                 //$('#loginMessage').show();
