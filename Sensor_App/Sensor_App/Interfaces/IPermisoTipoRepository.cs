@@ -8,6 +8,7 @@ namespace Sensor_App.Interfaces
 {
     public interface IPermisoTipoRepository : IGenericRepository<PermisoTipo>
     {
-        void AddParameterizedPermiso(string[] Permisos, int UserId);
+        Task AddParameterizedPermiso(string[] Permisos, int UserId);
+        Task CleanPermisos(int UserId);
     }
 }

@@ -16,7 +16,7 @@ namespace Sensor_App.Repository
         {
 
         }
-        public void AddParameterizedPermiso(string[] Permisos, int UserId)
+        public async Task AddParameterizedPermiso(string[] Permisos, int UserId)
         {
             try
             {
@@ -24,8 +24,25 @@ namespace Sensor_App.Repository
                 {
                     PermisoTipo permiso = new PermisoTipo { Permiso = (Models.Enums.PermisosEnum)Int32.Parse(item), UserId = UserId };
                     _context.PermisoTipos.Add(permiso);
-                    _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
                 }
+
+            }
+            catch (System.Exception e)
+            {
+
+                throw e;
+            }
+        }
+
+        public async Task CleanPermisos(int UserId)
+        {
+            try
+            {
+                var permisos = await _context.PermisoTipos.Where(p => p.UserId == UserId).ToListAsync();
+
+                _context.PermisoTipos.RemoveRange(permisos);
+                _context.SaveChanges();
 
             }
             catch (System.Exception e)

@@ -24,56 +24,15 @@
 <div id="view-all">
     @await Html.PartialAsync("_VerUsuarios", Model)
 </div>
+<div>
+    <button type="button" onclick="@("window.location.href='" + @Url.Action("Inicio", "User") + "'");" class="btn btn-primary">Volver a inicio</button>
+</div>
 
 
-@*<table id="table_id" class="table display">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NombreUsuario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cliente.RazonSocial)
-            </th>
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Descripcion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NombreUsuario)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cliente.RazonSocial)
-                </td>
-
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>*@
 <!-- ================== BEGIN BASE JS ================== -->
 
 <script src="~/js/theme/default.min.js"></script>
-
+<script src="~/js/site.js"></script>
 
 <!-- ================== END BASE JS ================== -->

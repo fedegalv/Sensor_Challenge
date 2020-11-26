@@ -15,6 +15,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Cliente.RazonSocial)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Permisos)
+            </th>
 
             <th></th>
         </tr>
@@ -22,26 +25,36 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Descripcion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NombreUsuario)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cliente.RazonSocial)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreUsuario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cliente.RazonSocial)
+            </td>
+            <td>
+                <select class="js-example-basic-single" name="state">
+                    @foreach (var permiso in item.Permisos)
+                    {
+                        <option>@permiso.Permiso</option>
+                    }
+                </select>
+            </td>
+            <td>
+                <a onclick="showInPopup('@Url.Action("CrearOEditar", "User", new { id = item.Id}, Context.Request.Scheme)', 'Modificar usuario')" class="btn btn-info text-white">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
 
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+        </tr>
         }
     </tbody>
 </table>
+
+<script src="~/js/site.js"></script>

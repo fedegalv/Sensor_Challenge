@@ -103,8 +103,9 @@ namespace Sensor_App.Controllers
             else
             {
                 var user = await _unitOfWork.UserRepository.GetUserByIdAsync(id);
+                return View(user);
             }
-            return View();
+           
         }
         [Authorize(Roles = "Alta_Usuario")]
         [HttpPost]
@@ -120,23 +121,26 @@ namespace Sensor_App.Controllers
                     user.ClienteID = Int32.Parse(Cliente);
                     await _unitOfWork.UserRepository.Add(user);
                     await _unitOfWork.SaveChangesAsync();
-                    _unitOfWork.PermisoTipoRepository.AddParameterizedPermiso(Permisos, user.Id);
+                    await _unitOfWork.PermisoTipoRepository.AddParameterizedPermiso(Permisos, user.Id);
                 }
                 else
                 {
                     try
                     {
+                        user.ClienteID = Int32.Parse(Cliente);
                         _unitOfWork.UserRepository.Update(user);
                         await _unitOfWork.SaveChangesAsync();
+                        await _unitOfWork.PermisoTipoRepository.CleanPermisos(user.Id);
+                        await _unitOfWork.PermisoTipoRepository.AddParameterizedPermiso(Permisos, user.Id);
                     }
                     catch (Exception)
                     {
                         return NotFound();
                     }
                 }
-                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_VerUsuarios", _unitOfWork.UserRepository.GetAll().ToList()) });
+                return Json(new { isValid = true});
             }
-            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CrearOEditar", user) });
+            return Json(new { isValid = false});
         }
 
         //[Authorize(Roles = "Alta_Usuario")]
