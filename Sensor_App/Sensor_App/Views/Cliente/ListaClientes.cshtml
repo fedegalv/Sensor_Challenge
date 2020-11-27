@@ -60,56 +60,71 @@
             <th>
                 @Html.DisplayNameFor(model => model.Activo)
             </th>
+            <th>
+                Uruguay - Transitos
+            </th>
+            <th>
+                Uruguay - Transitos carga suelta
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RazonSocial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NroRuc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Direccion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pais)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ciudad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodPostal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Zona)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fax)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Web)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Activo)
+            </td>
+            @foreach (var seguro in item.Seguro)
+            {
                 <td>
-                    @Html.DisplayFor(modelItem => item.RazonSocial)
+                    @seguro.Uruguay_Transitos
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.NroRuc)
+                    @seguro.Uruguay_Transitos_Carga_Suelta
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Direccion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Pais)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ciudad)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CodPostal)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Zona)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Telefono)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Fax)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Web)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Activo)
-                </td>
-                <td>
-                    <a onclick="showInPopup('@Url.Action("Editar", "Cliente", new { id = item.ClienteId}, Context.Request.Scheme)', 'Modificar cliente')" class="btn btn-info text-white">Editar</a> |
-                    <form asp-action="EliminarCliente" asp-route-id="@item.ClienteId" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
-                        <input type="submit" value="Eliminar" class="btn btn-danger" />
-                    </form>
-                </td>
-            </tr>
+            }
+            <td>
+                <a onclick="showInPopup('@Url.Action("Editar", "Cliente", new { id = item.ClienteId}, Context.Request.Scheme)', 'Modificar cliente')" class="btn btn-info text-white">Editar</a> |
+                <form asp-action="EliminarCliente" asp-route-id="@item.ClienteId" onsubmit="return jQueryAjaxDeleteCliente(this);" class="d-inline">
+                    <input type="submit" value="Eliminar" class="btn btn-danger" />
+                </form>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

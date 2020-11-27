@@ -21,7 +21,7 @@ namespace Sensor_App.Controllers
         [HttpGet]
         public async Task<ActionResult> ListaClientes()
         {
-            var clientes = await _unitOfWork.ClienteRepository.GetAllAsync();
+            var clientes = await _unitOfWork.ClienteRepository.GetAllClientesAsync();
             return View(clientes);
         }
         [Authorize(Roles = "Alta_Cliente")]
@@ -92,6 +92,76 @@ namespace Sensor_App.Controllers
             {
                 var user = await _unitOfWork.ClienteRepository.GetClienteByIdAsync(id);
                 return View(user);
+            }
+
+        }
+        [Authorize(Roles = "Modificacion_Cliente")]
+        [HttpPost]
+        public async Task<ActionResult> Editar(int id, string RazonSocial, int NroRuc, string Direccion, string Pais, string Ciudad, int CodPostal, ZonaEnum Zona, string Telefono, string Fax, string Email, string Web, EstadoTransitoEnum uruguayTransito, EstadoTransitoEnum cargaSuelta, bool Activo)
+        {
+            if (ModelState.IsValid)
+            {
+
+                try
+                {
+                    Cliente cliente = new Cliente
+                    {
+                        ClienteId = id,
+                        RazonSocial = RazonSocial,
+                        NroRuc = NroRuc,
+                        Direccion = Direccion,
+                        Pais = Pais,
+                        Ciudad = Ciudad,
+                        CodPostal = CodPostal,
+                        Zona = Zona,
+                        Telefono = Telefono,
+                        Fax = Fax,
+                        Email = Email,
+                        Web = Web,
+                        Activo = Activo
+                    };
+
+                    _unitOfWork.ClienteRepository.Update(cliente);
+                    await _unitOfWork.SaveChangesAsync();
+                    await _unitOfWork.SeguroRepository.CleanSeguros(cliente.ClienteId);
+                    Seguro seguro = new Seguro
+                    {
+                        ClienteId = cliente.ClienteId,
+                        Uruguay_Transitos = uruguayTransito,
+                        Uruguay_Transitos_Carga_Suelta = cargaSuelta
+                    };
+                    await _unitOfWork.SeguroRepository.Add(seguro);
+                    await _unitOfWork.SaveChangesAsync();
+                }
+                catch (Exception)
+                {
+                    return NotFound();
+                }
+
+                return Json(new { isValid = true });
+
+
+            }
+            return Json(new { isValid = false });
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Baja_Cliente")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EliminarCliente(int id)
+        {
+            try
+            {
+                //var user = _unitOfWork.UserRepository.GetUserByIdAsync(id);
+                await _unitOfWork.ClienteRepository.Delete(id);
+                await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.SeguroRepository.CleanSeguros(id);
+                return Json(new { isValid = true });
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { isValid = false });
             }
 
         }

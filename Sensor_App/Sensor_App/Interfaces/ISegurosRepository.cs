@@ -8,5 +8,6 @@ namespace Sensor_App.Interfaces
 {
     public interface ISegurosRepository : IGenericRepository<Seguro>
     {
+       Task CleanSeguros(int UserId);
     }
 }
