@@ -5,7 +5,7 @@
 2. Cambiar el ConnectionString del proyecto, ubicado en appsettings.json.<br/>De "SensorDbConnection": "Server=PCFEDERICO\\SQLEXPRESS;Database=SensorDB;Trusted_Connection=True;MultipleActiveResultSets=True;" a una que corresponda en cada caso particular.
 
 
-3. Iniciar el proyecto y logear con usuarios dados a continuacion, cada usuario tiene sus permisos correspondientes que limitan o no acceso a funciones correspondientes.
+3. Iniciar el proyecto y loguear con usuarios dados a continuacion, cada usuario tiene sus permisos correspondientes que limitan o no acceso a funciones correspondientes.
 <br/>
 <br/>
 <br/>
