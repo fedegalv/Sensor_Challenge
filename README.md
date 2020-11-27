@@ -1,5 +1,5 @@
 # Sensor_Challenge
-1. Restaurar el backup de la Base de datos ubicado en la carpeta *Database/SensorDB.bak* , la BD creada con Microsoft SQL Server.
+1. Restaurar el backup de la Base de datos ubicado en la carpeta *Database/SensorDB.bak* , la BD fue creada con Microsoft SQL Server.
 
 
 2. Cambiar el ConnectionString del proyecto, ubicado en appsettings.json.<br/>De "SensorDbConnection": "Server=PCFEDERICO\\SQLEXPRESS;Database=SensorDB;Trusted_Connection=True;MultipleActiveResultSets=True;" a una que corresponda en cada caso particular.
