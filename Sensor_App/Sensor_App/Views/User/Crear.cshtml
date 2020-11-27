@@ -4,7 +4,7 @@
 }
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CrearOEditar" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPostUser(this);" autocomplete="off">
+        <form asp-action="Crear" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPostUser(this);" autocomplete="off">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -40,8 +40,9 @@
                     <option value="3">Modificacion cliente</option>
                     <option value="4">Listado usuario</option>
                     <option value="5">Alta usuario</option>
-                    <option value="6">Modificacion usuario</option>
-                    <option value="7">Visualizacion mapa</option>
+                    <option value="6">Baja usuario</option>
+                    <option value="7">Modificacion usuario</option>
+                    <option value="8">Visualizacion mapa</option>
                 </select>
             </div>
 

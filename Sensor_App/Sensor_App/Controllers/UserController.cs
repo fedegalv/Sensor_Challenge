@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -9,23 +7,18 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Sensor_App.BusinessLogic;
-using Sensor_App.DBContext;
 using Sensor_App.Interfaces;
 using Sensor_App.Models;
-using Sensor_App.Models.ViewModel;
 
 namespace Sensor_App.Controllers
 {
     public class UserController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
         public UserController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
         }
         [HttpGet]
         public IActionResult LogIn()
@@ -37,6 +30,10 @@ namespace Sensor_App.Controllers
         public async Task<ActionResult> Login(LoginUserModel user)
         {
             string resultado = "Fail";
+
+            var passwordEncriptada = PasswordHandler.GetSHA256(user.Contrasenia);
+            user.Contrasenia = passwordEncriptada;
+
             var getUser = await _unitOfWork.UserRepository.AuthenticationAsync(user.Usuario, user.Contrasenia);
             if (getUser != null)
             {
@@ -90,21 +87,22 @@ namespace Sensor_App.Controllers
             return View(users);
         }
 
-        [Authorize(Roles = "Alta_Usuario, Modificacion_Usuario")]
-        [HttpGet]
-        public async Task<ActionResult> CrearOEditar(int id = 0)
-        {
-            if (id == 0)
-            {
-                return View(new User());
-            }
-            else
-            {
-                var user = await _unitOfWork.UserRepository.GetUserByIdAsync(id);
-                return View(user);
-            }
+        //FUERA DE USO
+        //[Authorize(Roles = "Alta_Usuario, Modificacion_Usuario")]
+        //[HttpGet]
+        //public async Task<ActionResult> CrearOEditar(int id = 0)
+        //{
+        //    if (id == 0)
+        //    {
+        //        return View(new User());
+        //    }
+        //    else
+        //    {
+        //        var user = await _unitOfWork.UserRepository.GetUserByIdAsync(id);
+        //        return View(user);
+        //    }
 
-        }
+        //}
         [Authorize(Roles = "Alta_Usuario")]
         [HttpGet]
         public async Task<ActionResult> Crear(int id = 0)
@@ -135,41 +133,43 @@ namespace Sensor_App.Controllers
             }
 
         }
-        [Authorize(Roles = "Alta_Usuario, Modificacion_Usuario")]
-        [HttpPost]
-        public async Task<ActionResult> CrearOEditar(int id, [Bind("Id, Nombre, Descripcion, NombreUsuario, Contrasenia, Cliente, Permisos")] User user, string Cliente, string[] Permisos)
-        {
-            if (ModelState.IsValid)
-            {
-                if (id == 0)
-                {
-                    //GET CLIENTE
-                    //var cliente = await _unitOfWork.ClienteRepository.GetById(Int32.Parse(Cliente));
-                    //PERMISOS
-                    user.ClienteID = Int32.Parse(Cliente);
-                    await _unitOfWork.UserRepository.Add(user);
-                    await _unitOfWork.SaveChangesAsync();
-                    await _unitOfWork.PermisoTipoRepository.AddParameterizedPermiso(Permisos, user.Id);
-                }
-                else
-                {
-                    try
-                    {
-                        user.ClienteID = Int32.Parse(Cliente);
-                        _unitOfWork.UserRepository.Update(user);
-                        await _unitOfWork.SaveChangesAsync();
-                        await _unitOfWork.PermisoTipoRepository.CleanPermisos(user.Id);
-                        await _unitOfWork.PermisoTipoRepository.AddParameterizedPermiso(Permisos, user.Id);
-                    }
-                    catch (Exception)
-                    {
-                        return NotFound();
-                    }
-                }
-                return Json(new { isValid = true });
-            }
-            return Json(new { isValid = false });
-        }
+
+        //FUERA DE USO
+        //[Authorize(Roles = "Alta_Usuario, Modificacion_Usuario")]
+        //[HttpPost]
+        //public async Task<ActionResult> CrearOEditar(int id, [Bind("Id, Nombre, Descripcion, NombreUsuario, Contrasenia, Cliente, Permisos")] User user, string Cliente, string[] Permisos)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        if (id == 0)
+        //        {
+        //            //GET CLIENTE
+        //            //var cliente = await _unitOfWork.ClienteRepository.GetById(Int32.Parse(Cliente));
+        //            //PERMISOS
+        //            user.ClienteID = Int32.Parse(Cliente);
+        //            await _unitOfWork.UserRepository.Add(user);
+        //            await _unitOfWork.SaveChangesAsync();
+        //            await _unitOfWork.PermisoTipoRepository.AddParameterizedPermiso(Permisos, user.Id);
+        //        }
+        //        else
+        //        {
+        //            try
+        //            {
+        //                user.ClienteID = Int32.Parse(Cliente);
+        //                _unitOfWork.UserRepository.Update(user);
+        //                await _unitOfWork.SaveChangesAsync();
+        //                await _unitOfWork.PermisoTipoRepository.CleanPermisos(user.Id);
+        //                await _unitOfWork.PermisoTipoRepository.AddParameterizedPermiso(Permisos, user.Id);
+        //            }
+        //            catch (Exception)
+        //            {
+        //                return NotFound();
+        //            }
+        //        }
+        //        return Json(new { isValid = true });
+        //    }
+        //    return Json(new { isValid = false });
+        //}
 
         [Authorize(Roles = "Modificacion_Usuario")]
         [HttpPost]
@@ -182,8 +182,13 @@ namespace Sensor_App.Controllers
                     try
                     {
                         user.ClienteID = Int32.Parse(Cliente);
+
+                        var passwordEncriptada = PasswordHandler.GetSHA256(user.Contrasenia);
+                        user.Contrasenia = passwordEncriptada;
+
                         _unitOfWork.UserRepository.Update(user);
                         await _unitOfWork.SaveChangesAsync();
+
                         await _unitOfWork.PermisoTipoRepository.CleanPermisos(user.Id);
                         await _unitOfWork.PermisoTipoRepository.AddParameterizedPermiso(Permisos, user.Id);
                     }
@@ -207,12 +212,14 @@ namespace Sensor_App.Controllers
             {
                 if (id == 0)
                 {
-                    //GET CLIENTE
-                    //var cliente = await _unitOfWork.ClienteRepository.GetById(Int32.Parse(Cliente));
-                    //PERMISOS
                     user.ClienteID = Int32.Parse(Cliente);
+
+                    var passwordEncriptada = PasswordHandler.GetSHA256(user.Contrasenia);
+                    user.Contrasenia = passwordEncriptada;
+
                     await _unitOfWork.UserRepository.Add(user);
                     await _unitOfWork.SaveChangesAsync();
+
                     await _unitOfWork.PermisoTipoRepository.AddParameterizedPermiso(Permisos, user.Id);
                 }
                 return Json(new { isValid = true });
@@ -226,9 +233,9 @@ namespace Sensor_App.Controllers
         {
             try
             {
-                //var user = _unitOfWork.UserRepository.GetUserByIdAsync(id);
                 await _unitOfWork.UserRepository.Delete(id);
                 await _unitOfWork.SaveChangesAsync();
+
                 await _unitOfWork.PermisoTipoRepository.CleanPermisos(id);
                 return Json(new { isValid = true });
 

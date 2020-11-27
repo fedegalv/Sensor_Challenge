@@ -1,10 +1,6 @@
-﻿using Sensor_App.Models.Enums;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sensor_App.Models
 {
@@ -12,9 +8,6 @@ namespace Sensor_App.Models
     {
         public User()
         {
-            //Cliente = new Cliente();
-            //Permisos = new Permisos();
-            //Permisos = new HashSet<PermisosEnum>();
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

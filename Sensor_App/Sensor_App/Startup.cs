@@ -11,7 +11,7 @@ using Sensor_App.DBContext;
 using Sensor_App.Interfaces;
 using Sensor_App.Repository;
 using System;
-using System.Security.Claims;
+using System.Net;
 
 namespace Sensor_App
 {
@@ -37,6 +37,7 @@ namespace Sensor_App
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
             // AutoMapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -77,6 +78,15 @@ namespace Sensor_App
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseStatusCodePages(async context =>
+            {
+                var response = context.HttpContext.Response;
+
+                if (
+                    response.StatusCode == (int)HttpStatusCode.NotFound)
+                    response.Redirect("/User/Inicio");
+            });
 
             app.UseEndpoints(endpoints =>
             {

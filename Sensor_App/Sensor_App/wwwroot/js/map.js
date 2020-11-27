@@ -82,7 +82,7 @@ function addPointGeom(data) {
                 geometry: new ol.geom.Point(ol.proj.transform([longitude, latitude], 'EPSG:4326',
                     'EPSG:3857')),
                 type: 'Point',
-                desc: '<pre> <b>Waypoint Details </b> ' + '<br>' + 'Latitude : ' + latitude + '<br>Longitude: ' + longitude + '</pre>'
+                desc: '<pre> <b>Detalles del punto</b> ' + '<br>' + 'Latitud : ' + latitude + '<br>Longitud: ' + longitude + '</pre>'
             }),
             iconStyle = new ol.style.Style({
                 image: new ol.style.Circle({

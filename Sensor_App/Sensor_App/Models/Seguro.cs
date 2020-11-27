@@ -7,7 +7,6 @@ namespace Sensor_App.Models
     public class Seguro
     {
         public int Id { get; set; }
-        //[ForeignKey("Cliente")]
        public int ClienteId { get; set; }
         [Display(Name = "Uruguay - Transitos")]
         public EstadoTransitoEnum Uruguay_Transitos { get; set; }
